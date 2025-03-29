@@ -12,7 +12,7 @@ import { Suspense, useActionState } from "react";
 import { authenticate } from "@/app/lib/actions";
 import { useSearchParams } from "next/navigation";
 
-export default function LoginForm() {
+function LoginFormContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [errorMessage, formAction, isPending] = useActionState(
@@ -86,6 +86,16 @@ export default function LoginForm() {
           </div>
         </div>
       </form>
+    </Suspense>
+  );
+}
+
+
+// Composant principal qui enveloppe LoginFormContent dans Suspense
+export default function LoginForm() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <LoginFormContent />
     </Suspense>
   );
 }
